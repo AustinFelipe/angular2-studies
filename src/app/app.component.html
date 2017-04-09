@@ -2,6 +2,22 @@
   {{title}}
 </h1>
 
+<h2>
+  Cuisines
+</h2>
+
 <ul>
-  <li *ngFor="let cuisine of _cuisineSubscribe | async">{{cuisine.$value}}</li>
+  <li *ngFor="let cuisine of _cuisines | async">{{cuisine.$value}}</li>
+</ul>
+
+<h2>
+  Restaurantes
+</h2>
+
+<ul>
+  <li *ngFor="let restaurant of _restaurants | async">{{restaurant.name}} - {{(restaurant.cuisineType | async)?.$value}}
+    <ul>
+      <li *ngFor="let feature of restaurant.featureType">{{(feature | async)?.$value}}</li>
+    </ul>
+  </li>
 </ul>
