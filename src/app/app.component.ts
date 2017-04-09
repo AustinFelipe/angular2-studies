@@ -19,24 +19,29 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this._cuisines = this._angularFire.database.list('/cuisines');
-    this._restaurants = this._angularFire.database.list('/restaurants')
-      .map(res => {
+    this._restaurants = this._angularFire.database.list('/restaurants', {
+      query: {
+        orderByChild: 'rating',
+        equalTo: 5 
+      }
+    })
+    .map(res => {
+      
+      res.map(restaurant => {
         
-        res.map(restaurant => {
-          
-          restaurant.cuisineType = this._angularFire.database.object('/cuisines/' + restaurant.cuisine);
-          restaurant.featureType = [];
+        restaurant.cuisineType = this._angularFire.database.object('/cuisines/' + restaurant.cuisine);
+        restaurant.featureType = [];
 
-          for (var feature in restaurant.features) {
-            restaurant.featureType.push(
-              this._angularFire.database.object('/features/' + feature)
-            );
-          }
+        for (var feature in restaurant.features) {
+          restaurant.featureType.push(
+            this._angularFire.database.object('/features/' + feature)
+          );
+        }
 
-          return restaurant;
-        });
-
-        return res;
+        return restaurant;
       });
+
+      return res;
+    });
   }
 }
