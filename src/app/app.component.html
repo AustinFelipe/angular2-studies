@@ -1,3 +1,7 @@
 <h1>
   {{title}}
 </h1>
+
+<ul>
+  <li *ngFor="let cuisine of _cuisineSubscribe | async">{{cuisine.$value}}</li>
+</ul>
